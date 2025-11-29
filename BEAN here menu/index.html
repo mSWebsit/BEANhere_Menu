@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bean Here Café</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">
+        <!-- Logo triggers login modal -->
+        <img id="logoBtn" src="imgs/logo.png" alt="Bean Here Logo" />
+      </div>
+      <ul>
+        <li><a href="#hotDrinks">Hot Drinks</a></li>
+        <li><a href="#coldDrinks">Cold Drinks</a></li>
+        <li><a href="#smoothiesAndShakes">Smoothies & Shakes</a></li>
+        <li><a href="#food">Food</a></li>
+        <li><a href="#desserts">Desserts</a></li>
+        <li><a href="#shisha">Shisha</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="authModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal">&times;</span>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required/>
+        <input type="password" id="loginPassword" placeholder="Password" required/>
+        <button type="submit">Login</button>
+      </form>
+      <p id="authMsg"></p>
+    </div>
+  </div>
+
+  <!-- Menu Sections -->
+  <section id="hotDrinks" class="section">
+    <h2>Hot Drinks</h2>
+    <div id="hotDrinksGrid" class="menu-grid"></div>
+  </section>
+
+  <section id="coldDrinks" class="section">
+    <h2>Cold Drinks</h2>
+    <div id="coldDrinksGrid" class="menu-grid"></div>
+  </section>
+
+  <section id="smoothiesAndShakes" class="section">
+    <h2>Smoothies & Shakes</h2>
+    <div id="smoothiesAndShakesGrid" class="menu-grid"></div>
+  </section>
+
+  <section id="food" class="section">
+    <h2>Food</h2>
+    <div id="foodGrid" class="menu-grid"></div>
+  </section>
+
+  <section id="desserts" class="section">
+    <h2>Desserts</h2>
+    <div id="dessertsGrid" class="menu-grid"></div>
+  </section>
+
+  <section id="shisha" class="section">
+    <h2>Shisha</h2>
+    <div id="shishaGrid" class="menu-grid"></div>
+  </section>
+
+  <button id="back-to-top">↑</button>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

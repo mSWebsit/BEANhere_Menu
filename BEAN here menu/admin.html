@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Bean Here</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">
+        <img src="imgs/logo.png" alt="Bean Here Logo" />
+      </div>
+      <ul>
+        <li><a href="index.html">Public Menu</a></li>
+      </ul>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <h2>Manage Menu Items</h2>
+    <div id="adminContainer"></div>
+  </section>
+
+<div id="editModal" class="modal hidden">
+  <div class="modal-content">
+    <span id="closeEditModal" class="close-btn">&times;</span>
+    <h2>Edit Item</h2>
+    <form id="editForm">
+      <label>Name:</label>
+      <input type="text" id="editName" required />
+      
+      <label>Description:</label>
+      <input type="text" id="editDesc" />
+      
+      <label>Price:</label>
+      <input type="text" id="editPrice" required />
+      
+      <label>Image URL:</label>
+      <input type="text" id="editImg" />
+      
+      <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="admin.js"></script>
+</body>
+</html>
