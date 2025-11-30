@@ -88,12 +88,13 @@ window.addEventListener("scroll", handleScroll);
 window.onload = async () => {
   await Promise.all([
     loadMenu("hotDrinks", "hotDrinksGrid"),
-    loadMenu("coldDrinks", "coldDrinksGrid"),
     loadMenu("smoothiesAndShakes", "smoothiesAndShakesGrid"),
+    loadMenu("coldDrinks", "coldDrinksGrid"),
     loadMenu("food", "foodGrid"),
     loadMenu("desserts", "dessertsGrid"),
     loadMenu("shisha", "shishaGrid")
   ]);
   handleScroll();
 };
+
 
