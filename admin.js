@@ -109,7 +109,7 @@ async function renderDashboard() {
       const card = document.createElement("div");
       card.className = "menu-item";
       card.innerHTML = `
-        <img src="${item.img || 'imgs/no_img.jpg'}" onerror="this.src='imgs/no_img.jpg'">
+        <img src="${item.img || 'imgs/no_img.png'}" onerror="this.src='imgs/no_img.png'">
         <div class="menu-details">
           <h3>${item.name}</h3>
           <p>${item.description || ""}</p>
@@ -167,3 +167,4 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
