@@ -23,9 +23,7 @@ const adminEmails = ["admin@beanhere.com"];
 
 // 3. Categories
 const categories = [
-  "hotDrinks", "coldDrinks", "smoothiesAndShakes", 
-  "food", "desserts", "shisha"
-];
+  "hotDrinks", "smoothiesAndShakes","coldDrinks","food", "desserts", "shisha"];
 
 // VARIABLES TO TRACK EDITING
 let currentEditId = null;
@@ -167,4 +165,5 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
 
