@@ -66,7 +66,7 @@ function createCard(item) {
   const card = document.createElement("div");
   card.className = "menu-item";
   card.innerHTML = `
-    <img src="${item.img || "imgs/no_img.jpg"}" alt="${item.name}">
+    <img src="${item.img || "imgs/no_img.png"}" alt="${item.name}">
     <div class="menu-details">
       <h3>${item.name}</h3>
       <p>${item.description || ""}</p>
@@ -96,3 +96,4 @@ window.onload = async () => {
   ]);
   handleScroll();
 };
+
