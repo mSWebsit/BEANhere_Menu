@@ -199,7 +199,6 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
         background: rgba(255, 255, 255, 0.1); /* Slight background on mobile */
        
     }
-}
 
     /* 2. PUBLIC MENU CARDS (Compact Row) */
     .menu-item {
@@ -276,6 +275,8 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
         width: 50%;
     }
 }
+
+
 
 
 
