@@ -126,13 +126,14 @@ async function populateSubCatDropdown() {
         option.textContent = formatTitle(cat);
         select.appendChild(option);
     });
-}
+
     
     // Load the first one by default
     if(categories.length > 0) await renderSubCatList(categories[0]);
 
     // Change listener
     select.onchange = (e) => renderSubCatList(e.target.value);
+}
     //--- 1. ITEM REORDER LOGIC ---
     async function renderItemOrderList(category) {
     const container = document.getElementById("itemOrderListContainer");
@@ -422,6 +423,7 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
 
 
 
