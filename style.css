@@ -270,11 +270,13 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
     /* 5. TOP BUTTONS */
     .global-btn-container {
         flex-direction: column;
+        align-items:center;
     }
     .global-btn-container button {
         width: 50%;
     }
 }
+
 
 
 
