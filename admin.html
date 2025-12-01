@@ -9,45 +9,89 @@
 <body>
   <nav>
     <div class="nav-inner">
-      <div class="logo">
-        <img src="imgs/logo.png" alt="Bean Here Logo" />
-      </div>
-      <ul>
-        <li><a href="index.html">Public Menu</a></li>
-      </ul>
+      <div class="logo"><img src="imgs/logo.png" alt="Bean Here Logo" /></div>
+      <ul><li><a href="index.html">View Public Menu</a></li></ul>
       <button id="logoutBtn">Logout</button>
     </div>
   </nav>
 
+  <!-- BUTTON CONTAINER -->
+  <div class="global-btn-container">
+    <button id="openAddModalBtn">+ Add New Item</button>
+    <button id="openCatModalBtn">⇅ Reorder Categories</button>
+    <!-- NEW BUTTON -->
+    <button id="openSubCatModalBtn">⇅ Manage Group Order</button>
+  </div>
+
   <section class="section">
-    <h2>Manage Menu Items</h2>
     <div id="adminContainer"></div>
   </section>
 
-<div id="editModal" class="modal hidden">
-  <div class="modal-content">
-    <span id="closeEditModal" class="close-btn">&times;</span>
-    <h2>Edit Item</h2>
-    <form id="editForm">
-      <label>Name:</label>
-      <input type="text" id="editName" required />
-      
-      <label>Description:</label>
-      <input type="text" id="editDesc" />
-      
-      <label>Price:</label>
-      <input type="text" id="editPrice" required />
-      
-      <label>Image URL:</label>
-      <input type="text" id="editImg" />
-      
-      <button type="submit" class="save-btn">Save Changes</button>
-    </form>
+  <!-- 1. ADD ITEM MODAL -->
+  <div id="addModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeAddModal" class="close-btn">&times;</span>
+      <h2>Add New Item</h2>
+      <form id="addForm">
+        <label>Select Category:</label>
+        <select id="addCategory" required></select>
+        <label>Name:</label>
+        <input type="text" id="addName" required />
+        <label>Sub-Group (e.g. Frappe):</label>
+        <input type="text" id="addSubCat" />
+        <label>Description:</label>
+        <input type="text" id="addDesc" />
+        <label>Price:</label>
+        <input type="text" id="addPrice" required />
+        <label>Image Path:</label>
+        <input type="text" id="addImgUrl" placeholder="imgs/menu/item.png" />
+        <button type="submit" class="save-btn">Add Item</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<script type="module" src="admin.js"></script>
+  <!-- 2. EDIT ITEM MODAL -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeEditModal" class="close-btn">&times;</span>
+      <h2>Edit Item</h2>
+      <form id="editForm">
+        <label>Name:</label>
+        <input type="text" id="editName" required />
+        <label>Sub-Group:</label>
+        <input type="text" id="editSubCat" />
+        <label>Description:</label>
+        <input type="text" id="editDesc" />
+        <label>Price:</label>
+        <input type="text" id="editPrice" required />
+        <label>Image Path:</label>
+        <input type="text" id="editImgUrl" />
+        <button type="submit" class="save-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. CATEGORY MANAGER MODAL -->
+  <div id="catModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeCatModal" class="close-btn">&times;</span>
+      <h2>Reorder Categories</h2>
+      <div id="categoryListContainer"></div>
+    </div>
+  </div>
+
+  <!-- 4. SUB-GROUP MANAGER MODAL (NEW) -->
+  <div id="subCatModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeSubCatModal" class="close-btn">&times;</span>
+      <h2>Manage Group Order</h2>
+      <label>Choose Category:</label>
+      <select id="subCatSelector" style="width:100%; margin-bottom:15px;"></select>
+      <p style="font-size:0.9rem; color:#666;">Reorder the sub-groups for this category:</p>
+      <div id="subCatListContainer"></div>
+    </div>
+  </div>
+
+  <script type="module" src="admin.js"></script>
 </body>
 </html>
-
-
