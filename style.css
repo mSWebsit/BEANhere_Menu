@@ -107,10 +107,102 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
     cursor: pointer; display: none; align-items: center; justify-content: center;
 }
 
-@media (max-width: 600px) {
-    .menu-item { flex-direction: row; align-items: center; }
-    .menu-item img { width: 100px; height: 100px; object-fit: contain; }
-    nav .nav-inner { flex-wrap: wrap; }
-    nav ul { gap: 10px; padding-top: 5px; }
-    .global-btn-container button { width: 100%; }
+@media (max-width: 768px) {
+    
+    /* 1. SCROLLABLE NAVIGATION */
+    nav { padding: 10px 0; }
+    nav .nav-inner { 
+        display: block; /* Stack logo and menu */
+        text-align: center;
+    }
+    .logo { margin-bottom: 10px; }
+    
+    nav ul {
+        display: flex;
+        overflow-x: auto; /* Allow horizontal scrolling */
+        white-space: nowrap;
+        padding-bottom: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    }
+    
+    /* Hide scrollbar */
+    nav ul::-webkit-scrollbar { display: none; }
+    
+    /* 2. PUBLIC MENU CARDS (Compact Row) */
+    .menu-item {
+        flex-direction: row; /* Image Left, Text Right */
+        align-items: center;
+        height: auto;
+    }
+    .menu-item img {
+        width: 110px;
+        height: 110px;
+        border-radius: 12px 0 0 12px; /* Round left corners only */
+    }
+    .menu-details {
+        padding: 10px 15px;
+    }
+    .menu-details h3 { font-size: 1rem; }
+    .price { font-size: 1rem; }
+
+    /* 3. ADMIN DASHBOARD CARDS (Stacked for Controls) */
+    /* We override the row layout specifically for the admin panel items */
+    #adminContainer .menu-item > div {
+        flex-direction: column; /* Stack vertically */
+        width: 100%;
+    }
+    
+    #adminContainer .menu-item img {
+        width: 100% !important; /* Force full width */
+        height: 180px !important;
+        border-radius: 12px 12px 0 0;
+        margin: 0;
+    }
+
+    /* Admin Order Arrows - Horizontal Bar */
+    .order-controls {
+        flex-direction: row; 
+        width: 100%;
+        padding: 10px;
+        background: #f1f1f1;
+        justify-content: space-between;
+        margin: 0;
+    }
+    .order-controls button {
+        flex: 1; /* Big tap targets */
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+
+    /* Admin Details */
+    #adminContainer .menu-details {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Admin Edit/Delete Buttons */
+    #adminContainer .menu-details div {
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .btn-edit, .btn-delete {
+        padding: 10px 20px; /* Larger touch target */
+    }
+
+    /* 4. MODALS */
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    /* 5. TOP BUTTONS */
+    .global-btn-container {
+        flex-direction: column;
+    }
+    .global-btn-container button {
+        width: 100%;
+    }
 }
+
