@@ -169,8 +169,6 @@ async function populateSubCatDropdown() {
         container.appendChild(div);
     });
 }
-
-}
 // --- 2. SUB-GROUP MANAGER LOGIC ---
 
 async function renderSubCatList(category) {
@@ -422,5 +420,6 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
 
 
