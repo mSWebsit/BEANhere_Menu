@@ -59,7 +59,9 @@ document.getElementById("openSubCatModalBtn").addEventListener("click", async ()
   await populateSubCatDropdown();
   subCatModal.classList.remove("hidden");
 });
-
+document.getElementById("openItemOrderModalBtn").addEventListener("click", async () => {
+  await populateDropdown(document.getElementById("itemOrderCatSelector"), renderItemOrderList);
+  itemOrderModal.classList.remove("hidden");
 // Auth
 onAuthStateChanged(auth, async (user) => {
   if (!user || !adminEmails.includes(user.email)) {
@@ -129,7 +131,46 @@ async function populateSubCatDropdown() {
 
     // Change listener
     select.onchange = (e) => renderSubCatList(e.target.value);
+    //--- 1. ITEM REORDER LOGIC ---
+    async function renderItemOrderList(category) {
+    const container = document.getElementById("itemOrderListContainer");
+    container.innerHTML = "Loading...";
+
+    const colRef = collection(db, "menuData", category, "items");
+    const snapshot = await getDocs(colRef);
+    let items = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    // Sort by order
+    items.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    container.innerHTML = "";
+    if(items.length === 0) {
+        container.innerHTML = "<p>No items in this category.</p>";
+        return;
+    }
+
+    items.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "category-list-item";
+        // Show Name + Group if exists
+        const label = item.name + (item.subcategory ? ` <small>[${item.subcategory}]</small>` : "");
+        
+        div.innerHTML = `
+            <span class="cat-name">${label}</span>
+            <div class="list-controls">
+                <button class="btn-up">↑</button>
+                <button class="btn-down">↓</button>
+            </div>
+        `;
+
+        div.querySelector(".btn-up").addEventListener("click", () => moveItemInList(category, item.id, -1, items));
+        div.querySelector(".btn-down").addEventListener("click", () => moveItemInList(category, item.id, 1, items));
+        container.appendChild(div);
+    });
 }
+
+}
+// --- 2. SUB-GROUP MANAGER LOGIC ---
 
 async function renderSubCatList(category) {
     const container = document.getElementById("subCatListContainer");
@@ -200,7 +241,7 @@ async function renderSubCatList(category) {
     });
 }
 
-// --- CATEGORY MANAGER LOGIC ---
+// --- 3. CATEGORY MANAGER LOGIC ---
 function renderCategoryManager() {
     const container = document.getElementById("categoryListContainer");
     container.innerHTML = "";
@@ -238,7 +279,7 @@ function renderCategoryManager() {
     });
 }
 
-// --- ITEM ORDER LOGIC ---
+// --- 4.ITEM ORDER LOGIC ---
 async function moveItem(category, itemId, direction, currentItems) {
     const index = currentItems.findIndex(i => i.id === itemId);
     if (index === -1) return;
@@ -306,7 +347,7 @@ document.getElementById("editForm").addEventListener("submit", async (e) => {
   } catch (err) { alert(err.message); }
 });
 
-// --- MAIN RENDER ---
+// --- 5.MAIN RENDER ---
 async function renderDashboard() {
   const container = document.getElementById("adminContainer");
   container.innerHTML = "";
@@ -380,3 +421,4 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
