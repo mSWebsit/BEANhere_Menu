@@ -62,6 +62,7 @@ document.getElementById("openSubCatModalBtn").addEventListener("click", async ()
 document.getElementById("openItemOrderModalBtn").addEventListener("click", async () => {
   await populateDropdown(document.getElementById("itemOrderCatSelector"), renderItemOrderList);
   itemOrderModal.classList.remove("hidden");
+});
 // Auth
 onAuthStateChanged(auth, async (user) => {
   if (!user || !adminEmails.includes(user.email)) {
@@ -421,4 +422,5 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
 
