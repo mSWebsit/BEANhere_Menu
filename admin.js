@@ -19,32 +19,41 @@ const adminEmails = ["admin@beanhere.com", "owner@mycafe.com", "mhmd@gmail.com"]
 
 // State
 let categories = [];
-let subCatOrderMap = {}; // Will store { "coldDrinks": ["Frappe", "Juice"] }
+let subCatOrderMap = {}; 
 
 // DOM Elements
 const editModal = document.getElementById("editModal");
 const addModal = document.getElementById("addModal");
 const catModal = document.getElementById("catModal");
 const subCatModal = document.getElementById("subCatModal");
+const itemOrderModal = document.getElementById("itemOrderModal"); // FIXED: Was missing
 
+// Close Buttons
 const closeEditModal = document.getElementById("closeEditModal");
 const closeAddModal = document.getElementById("closeAddModal");
 const closeCatModal = document.getElementById("closeCatModal");
 const closeSubCatModal = document.getElementById("closeSubCatModal");
+const closeItemOrderModal = document.getElementById("closeItemOrderModal"); // FIXED: Was missing
 
 // --- MODAL HANDLERS ---
-closeEditModal.addEventListener("click", () => editModal.classList.add("hidden"));
-closeAddModal.addEventListener("click", () => addModal.classList.add("hidden"));
-closeCatModal.addEventListener("click", () => catModal.classList.add("hidden"));
-closeSubCatModal.addEventListener("click", () => subCatModal.classList.add("hidden"));
+const closeModal = (modal) => modal.classList.add("hidden");
+
+closeEditModal.addEventListener("click", () => closeModal(editModal));
+closeAddModal.addEventListener("click", () => closeModal(addModal));
+closeCatModal.addEventListener("click", () => closeModal(catModal));
+closeSubCatModal.addEventListener("click", () => closeModal(subCatModal));
+// FIXED: Added listener
+if(closeItemOrderModal) closeItemOrderModal.addEventListener("click", () => closeModal(itemOrderModal));
 
 window.onclick = (e) => { 
-  if(e.target == editModal) editModal.classList.add("hidden");
-  if(e.target == addModal) addModal.classList.add("hidden");
-  if(e.target == catModal) catModal.classList.add("hidden");
-  if(e.target == subCatModal) subCatModal.classList.add("hidden");
+  if(e.target == editModal) closeModal(editModal);
+  if(e.target == addModal) closeModal(addModal);
+  if(e.target == catModal) closeModal(catModal);
+  if(e.target == subCatModal) closeModal(subCatModal);
+  if(e.target == itemOrderModal) closeModal(itemOrderModal);
 };
 
+// Open Button Logic
 document.getElementById("openAddModalBtn").addEventListener("click", () => {
   document.getElementById("addForm").reset();
   addModal.classList.remove("hidden");
@@ -56,20 +65,24 @@ document.getElementById("openCatModalBtn").addEventListener("click", () => {
 });
 
 document.getElementById("openSubCatModalBtn").addEventListener("click", async () => {
-  await populateSubCatDropdown();
+  await populateDropdown(document.getElementById("subCatSelector"), renderSubCatList);
   subCatModal.classList.remove("hidden");
 });
+
+// FIXED: This logic now works because populateDropdown and itemOrderModal are defined
 document.getElementById("openItemOrderModalBtn").addEventListener("click", async () => {
   await populateDropdown(document.getElementById("itemOrderCatSelector"), renderItemOrderList);
   itemOrderModal.classList.remove("hidden");
 });
+
+
 // Auth
 onAuthStateChanged(auth, async (user) => {
   if (!user || !adminEmails.includes(user.email)) {
     window.location.href = "index.html";
     return;
   }
-  await fetchConfig(); // Load Categories & SubCat Order
+  await fetchConfig(); 
   populateCategoryDropdown();
   await renderDashboard();
 });
@@ -116,26 +129,23 @@ function populateCategoryDropdown() {
   });
 }
 
-// --- SUB-GROUP MANAGER LOGIC ---
-async function populateSubCatDropdown() {
-    const select = document.getElementById("subCatSelector");
-    select.innerHTML = "";
+// FIXED: This function was missing in your previous code
+async function populateDropdown(selectElement, callback) {
+    selectElement.innerHTML = "";
     categories.forEach(cat => {
         const option = document.createElement("option");
         option.value = cat;
         option.textContent = formatTitle(cat);
-        select.appendChild(option);
+        selectElement.appendChild(option);
     });
-
-    
-    // Load the first one by default
-    if(categories.length > 0) await renderSubCatList(categories[0]);
-
-    // Change listener
-    select.onchange = (e) => renderSubCatList(e.target.value);
+    // Load first
+    if(categories.length > 0) await callback(categories[0]);
+    selectElement.onchange = (e) => callback(e.target.value);
 }
-    //--- 1. ITEM REORDER LOGIC ---
-    async function renderItemOrderList(category) {
+
+
+// --- 1. ITEM REORDER LOGIC (MODAL) ---
+async function renderItemOrderList(category) {
     const container = document.getElementById("itemOrderListContainer");
     container.innerHTML = "Loading...";
 
@@ -156,7 +166,7 @@ async function populateSubCatDropdown() {
         const div = document.createElement("div");
         div.className = "category-list-item";
         // Show Name + Group if exists
-        const label = item.name + (item.subcategory ? ` <small>[${item.subcategory}]</small>` : "");
+        const label = item.name + (item.subcategory ? ` <small style="color:blue">[${item.subcategory}]</small>` : "");
         
         div.innerHTML = `
             <span class="cat-name">${label}</span>
@@ -166,14 +176,43 @@ async function populateSubCatDropdown() {
             </div>
         `;
 
+        // FIXED: Added listeners for Up/Down
         div.querySelector(".btn-up").addEventListener("click", () => moveItemInList(category, item.id, -1, items));
         div.querySelector(".btn-down").addEventListener("click", () => moveItemInList(category, item.id, 1, items));
         container.appendChild(div);
     });
 }
 
-// --- 2. SUB-GROUP MANAGER LOGIC ---
+// FIXED: This function was missing
+async function moveItemInList(category, itemId, direction, currentItems) {
+    const index = currentItems.findIndex(i => i.id === itemId);
+    if (index === -1) return;
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= currentItems.length) return;
 
+    const itemA = currentItems[index];
+    const itemB = currentItems[targetIndex];
+
+    // Swap Order
+    const tempOrder = itemA.order;
+    itemA.order = itemB.order;
+    itemB.order = tempOrder;
+
+    // Update DB
+    const refA = doc(db, "menuData", category, "items", itemA.id);
+    const refB = doc(db, "menuData", category, "items", itemB.id);
+    await Promise.all([
+        updateDoc(refA, { order: itemA.order }),
+        updateDoc(refB, { order: itemB.order })
+    ]);
+
+    // Refresh List & Dashboard
+    await renderItemOrderList(category);
+    await renderDashboard();
+}
+
+
+// --- 2. SUB-GROUP MANAGER LOGIC ---
 async function renderSubCatList(category) {
     const container = document.getElementById("subCatListContainer");
     container.innerHTML = "Loading...";
@@ -196,7 +235,6 @@ async function renderSubCatList(category) {
     groupsArray.sort((a, b) => {
         const indexA = savedOrder.indexOf(a);
         const indexB = savedOrder.indexOf(b);
-        // If both exist in saved order, sort by index. If not, push to end.
         if (indexA !== -1 && indexB !== -1) return indexA - indexB;
         if (indexA !== -1) return -1;
         if (indexB !== -1) return 1;
@@ -281,7 +319,7 @@ function renderCategoryManager() {
     });
 }
 
-// --- 4.ITEM ORDER LOGIC ---
+// --- 4. ITEM ORDER LOGIC (Dashboard Arrows - Optional if using Modal) ---
 async function moveItem(category, itemId, direction, currentItems) {
     const index = currentItems.findIndex(i => i.id === itemId);
     if (index === -1) return;
@@ -349,7 +387,7 @@ document.getElementById("editForm").addEventListener("submit", async (e) => {
   } catch (err) { alert(err.message); }
 });
 
-// --- 5.MAIN RENDER ---
+// --- 5. MAIN RENDER ---
 async function renderDashboard() {
   const container = document.getElementById("adminContainer");
   container.innerHTML = "";
@@ -378,10 +416,7 @@ async function renderDashboard() {
 
       card.innerHTML = `
         <div style="display:flex;">
-            <div class="order-controls">
-                <button class="btn-move btn-item-up">↑</button>
-                <button class="btn-move btn-item-down">↓</button>
-            </div>
+            <!-- Removed arrows here to use Modal instead, keeps UI clean -->
             <img src="${item.img || 'imgs/no_img.png'}" onerror="this.src='imgs/no_img.png'" style="width:100px; height:100px; object-fit:cover;">
             <div class="menu-details">
                 <h3>${item.name}</h3>
@@ -395,9 +430,6 @@ async function renderDashboard() {
         </div>
       `;
 
-      card.querySelector(".btn-item-up").addEventListener("click", () => moveItem(category, item.id, -1, items));
-      card.querySelector(".btn-item-down").addEventListener("click", () => moveItem(category, item.id, 1, items));
-      
       card.querySelector(".btn-edit").addEventListener("click", () => {
         currentEditId = item.id;
         currentEditCategory = category;
@@ -423,9 +455,3 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
-
-
-
-
-
-
