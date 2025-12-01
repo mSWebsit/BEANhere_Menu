@@ -17,8 +17,8 @@
   <!-- BUTTON CONTAINER -->
   <div class="global-btn-container">
     <button id="openAddModalBtn">+ Add New Item</button>
+    <button id="openItemOrderModalBtn">⇅ Reorder Items</button>
     <button id="openCatModalBtn">⇅ Reorder Categories</button>
-    <!-- NEW BUTTON -->
     <button id="openSubCatModalBtn">⇅ Manage Group Order</button>
   </div>
 
@@ -79,7 +79,7 @@
     </div>
   </div>
 
-  <!-- 4. SUB-GROUP MANAGER MODAL (NEW) -->
+  <!-- 4. SUB-GROUP MANAGER MODAL -->
   <div id="subCatModal" class="modal hidden">
     <div class="modal-content">
       <span id="closeSubCatModal" class="close-btn">&times;</span>
@@ -90,8 +90,19 @@
       <div id="subCatListContainer"></div>
     </div>
   </div>
-
+<!-- 5. ITEM ORDER MODAL -->
+  <div id="itemOrderModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeItemOrderModal" class="close-btn">&times;</span>
+      <h2>Reorder Items</h2>
+      <label>Choose Category:</label>
+      <select id="itemOrderCatSelector" style="width:100%; margin-bottom:15px;"></select>
+      <p style="font-size:0.9rem; color:#666;">Move items up/down:</p>
+      <div id="itemOrderListContainer"></div>
+    </div>
+  </div>
   <script type="module" src="admin.js"></script>
 </body>
 </html>
+
 
