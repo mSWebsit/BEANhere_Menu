@@ -107,22 +107,19 @@ nav ul li a:hover {
     padding: 12px 20px; color: white; font-size: 1rem; font-weight: bold;
     border: none; border-radius: 8px; cursor: pointer; min-width: 180px;
 }
-#openAddModalBtn { background-color: #0A3325; }
+/* Button Colors */
+#openAddModalBtn { background-color: #0A3325; } 
 #openAddModalBtn:hover { background-color: #2ecc71; }
+
 #openCatModalBtn { background-color: #3498db; }
 #openCatModalBtn:hover { background-color: #2980b9; }
+
 #openSubCatModalBtn { background-color: #9b59b6; } 
 #openSubCatModalBtn:hover { background-color: #8e44ad; }
 
-/* Item Arrows */
-.order-controls {
-    display: flex; flex-direction: column; justify-content: center; gap: 2px; margin-right: 10px;
-}
-.btn-move {
-    background: #f0f0f0; border: 1px solid #ccc; cursor: pointer;
-    font-size: 12px; padding: 2px 6px; border-radius: 4px;
-}
-.btn-move:hover { background: #ddd; }
+/* NEW: Item Reorder Button (Orange) */
+#openItemOrderModalBtn { background-color: #e67e22; }
+#openItemOrderModalBtn:hover { background-color: #d35400; }
 
 /* Category/Group Manager List */
 .category-list-item {
@@ -276,9 +273,10 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
         flex-direction: column;
     }
     .global-btn-container button {
-        width: 100%;
+        width: 50%;
     }
 }
+
 
 
 
