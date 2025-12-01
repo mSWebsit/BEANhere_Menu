@@ -126,6 +126,7 @@ async function populateSubCatDropdown() {
         option.textContent = formatTitle(cat);
         select.appendChild(option);
     });
+}
     
     // Load the first one by default
     if(categories.length > 0) await renderSubCatList(categories[0]);
@@ -168,6 +169,7 @@ async function populateSubCatDropdown() {
         div.querySelector(".btn-down").addEventListener("click", () => moveItemInList(category, item.id, 1, items));
         container.appendChild(div);
     });
+}
 }
 // --- 2. SUB-GROUP MANAGER LOGIC ---
 
@@ -420,6 +422,7 @@ async function renderDashboard() {
     container.appendChild(sectionEl);
   }
 }
+
 
 
 
