@@ -13,18 +13,72 @@ body { background: var(--bg-color); color: var(--text-color); line-height: 1.6; 
 /* Navigation */
 .logo img { height: 60px; width: auto; }
 nav {
-    background: var(--accent-color2); color: #fff; padding: 12px 30px;
-    position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px var(--card-shadow);
+    background: var(--accent-color2);
+    color: #fff;
+    padding: 0 20px; /* Removed vertical padding, handled by height */
+    height: 70px;    /* Fixed height for stability */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;         /* key for vertical centering */
+    align-items: center;   /* key for vertical centering */
 }
+
 nav .nav-inner {
-    max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;             /* Flexbox layout */
+    align-items: center;       /* Center items vertically */
+    justify-content: space-between; /* Logo Left, Links Right */
 }
-nav ul { list-style: none; display: flex; gap: 30px; }
+
+.logo img {
+    height: 50px; /* Adjust logo size */
+    width: auto;
+    display: block;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Space between links */
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
 nav ul li a {
-    color: #fff; text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 25px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 20px;
     transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevents text from wrapping */
 }
-nav ul li a:hover { background: rgba(255, 255, 255, 0.1); }
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#logoutBtn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-left: 15px;
+    transition: all 0.3s;
+}
+#logoutBtn:hover {
+    background: white;
+    color: var(--accent-color2);
+}
 
 /* Layout */
 .section { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
@@ -109,27 +163,46 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
 
 @media (max-width: 768px) {
     
-    /* 1. SCROLLABLE NAVIGATION */
-    nav { padding: 10px 0; }
-    nav .nav-inner { 
-        display: block; /* Stack logo and menu */
+
+   nav {
+        height: auto; /* Allow height to grow on phone */
+        padding: 10px 0;
+        display: block; /* Stack vertically */
+    }
+
+    nav .nav-inner {
+        display: block; /* Break the Left/Right layout */
         text-align: center;
     }
-    .logo { margin-bottom: 10px; }
-    
+
+    .logo {
+        margin-bottom: 8px; /* Space below logo */
+        display: flex;
+        justify-content: center;
+    }
+
     nav ul {
         display: flex;
-        overflow-x: auto; /* Allow horizontal scrolling */
-        white-space: nowrap;
+        gap: 10px;
+        overflow-x: auto; /* Enable sideways scrolling */
         padding-bottom: 5px;
         padding-left: 15px;
         padding-right: 15px;
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        justify-content: flex-start; /* Start from left */
+        -webkit-overflow-scrolling: touch; /* Smooth scroll */
+        scrollbar-width: none; /* Hide scrollbar Firefox */
     }
     
-    /* Hide scrollbar */
+    /* Hide scrollbar Chrome/Safari */
     nav ul::-webkit-scrollbar { display: none; }
-    
+
+    nav ul li a {
+        font-size: 14px;
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.1); /* Slight background on mobile */
+    }
+}
+
     /* 2. PUBLIC MENU CARDS (Compact Row) */
     .menu-item {
         flex-direction: row; /* Image Left, Text Right */
@@ -205,4 +278,5 @@ form input, form select { padding: 10px; border: 1px solid #ccc; border-radius: 
         width: 100%;
     }
 }
+
 
